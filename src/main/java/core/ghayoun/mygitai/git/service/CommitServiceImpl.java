@@ -38,6 +38,10 @@ public class CommitServiceImpl implements CommitService {
     public ResponseEntity<String> getMessage(GitRequest data) throws Exception{
         System.out.println("실행횟수 = " + count.incrementAndGet());
         long startTime = System.currentTimeMillis();
+
+        Map<String, String> fileToDelta = toMapFromPojo(data);
+        System.out.println("변환된 파일 = "+fileToDelta);
+
         List<Message> messages = Arrays.asList(
                 new Message(
                         "system",
@@ -52,17 +56,13 @@ public class CommitServiceImpl implements CommitService {
                                 "엄격한 규칙:\n" +
                                 "- 입력에 없는 내용을 지어내지 않는다. 줄 내용은 원문 그대로 사용한다.\n"
                 ),
-                new Message("user", data.toString())
+                new Message("user", fileToDelta.toString())
         );
         Options options = new Options(16, 0.1, 2048, 2048);
         OllamaRequest requestPayload = new OllamaRequest(model, messages, false, options,"json");
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<OllamaRequest> requestEntity = new HttpEntity<>(requestPayload, headers);
-
-        Map<String, String> fileToDelta = toMapFromPojo(data);
-        System.out.println("변환된 파일 = "+fileToDelta);
-
         ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
         System.out.println(response.getBody());
 //        notionService.postMessage(data);
