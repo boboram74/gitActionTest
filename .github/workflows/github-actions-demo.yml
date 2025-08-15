@@ -46,7 +46,12 @@ jobs:
               additions: f.additions,
               deletions: f.deletions,
               changes:   f.changes,
-              delta:    simplifyPatch(f.patch)
+              delta:    (() => {
+                        const d = simplifyPatch(f.patch);
+                        if (!d) return null;
+                        const label = f.previous_filename ? `${f.previous_filename} -> ${f.filename}` : f.filename;
+                        return d.split('\n').map(line => `${label} ${line}`).join('\n');
+                      })()
             }));
 
             const body = {
