@@ -45,7 +45,7 @@ public class CommitServiceImpl implements CommitService {
                 new Message(
                         "system",
                         "너는 커밋 요약 봇이다. 한국어만 사용한다.\n" +
-                                "깃 커밋내용을 보내줄테니 요약해줘"
+                                "어떤기능이 어떻게 바뀌었는지 요약해 쓸데없는 제목같은거 넣지말고 핵심만"
                 ),
                 new Message("user", userJson)
         );

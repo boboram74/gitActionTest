@@ -6,11 +6,11 @@ import lombok.Data;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class FileChange {
-    private String filename; //wqe
+    private String filename;
     private String previousFilename;
     private String status;
     private Integer additions;
     private Integer deletions;
     private Integer changes;
-    private String delta; //ㅂㅈㄷ
+    private String delta;
 }
