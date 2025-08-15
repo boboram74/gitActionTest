@@ -39,10 +39,10 @@ public class CommitServiceImpl implements CommitService {
         System.out.println("실행횟수 = " + count.incrementAndGet());
         long startTime = System.currentTimeMillis();
         List<Message> messages = Arrays.asList(
-                new Message("system","너는 커밋 요약 봇이다. 한국어만 사용한다.\n" +
+                new Message("system","너는 Git 커밋내용 요약 전문가이다. 한국어만 사용한다. 아래 규칙은 반드시 지켜야한다\n" +
                         "\"규칙:\\n\" +\n" +
-                        "\" -는 삭제, +는 추가 라인이다.\\n\" +\n" +
-                        "\"JSON 이외의 텍스트를 출력하면 안 된다.\"" +
+                        "\"-는 라인 삭제, +는 추가 라인이다.\\n\" +\n" +
+//                        "\"JSON 이외의 텍스트를 출력하면 안 된다.\"" +
                         "\"출력은 반드시 아래 JSON 하나만 생성한다(코드블록/설명/문장 금지).\n" +
                         "\n" +
                         "{\n" +
