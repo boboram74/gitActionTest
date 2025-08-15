@@ -49,7 +49,7 @@ public class CommitServiceImpl implements CommitService {
                         "  \"author_and_title\": \"아이디/커밋명\",\n" +
                         "  \"original_block\": \"원본파일명과 원본파일내용\",\n" +
                         "  \"changed_block\": \"수정파일명과 수정한파일내용\",\n" +
-                        "  \"summary\": \"한 문장 한국어 요약\"\n" +
+                        "  \"summary\": \"변경된 모든 파일에 대하여 한국어 요약\"\n" +
                         "}\n" +
                         "\n"),
                 new Message("user", data)

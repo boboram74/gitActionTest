@@ -51,7 +51,7 @@ public class NotionServiceImpl implements NotionService{
         System.out.println("authorAndTitle = " + authorAndTitle);
         System.out.println("originalBlock = " + originalBlock);
         System.out.println("changedBlock = " + changedBlock);
-        System.out.println("summary = " + summary); //성공했니다 문혁씨
+        System.out.println("summary = " + summary);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
