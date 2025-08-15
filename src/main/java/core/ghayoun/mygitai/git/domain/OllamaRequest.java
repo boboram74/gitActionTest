@@ -15,4 +15,5 @@ public class OllamaRequest {
     private List<Message> messages;
     private boolean stream;
     private Options options;
+    private String format;
 }

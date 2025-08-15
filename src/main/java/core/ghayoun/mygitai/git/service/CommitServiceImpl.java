@@ -59,8 +59,8 @@ public class CommitServiceImpl implements CommitService {
                 ),
                 new Message("user", data)
         );
-        Options options = new Options(16, 0.2, 2048, 2048);
-        OllamaRequest requestPayload = new OllamaRequest(model, messages, false, options);
+        Options options = new Options(16, 0.1, 2048, 2048);
+        OllamaRequest requestPayload = new OllamaRequest(model, messages, false, options,"json");
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<OllamaRequest> requestEntity = new HttpEntity<>(requestPayload, headers);
