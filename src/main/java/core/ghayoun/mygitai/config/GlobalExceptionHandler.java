@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(IllegalArgumentException.class)
+    @ExceptionHandler(IllegalArgumentException.class) //hi
     public ResponseEntity<Map<String, Object>> ilHandler(IllegalArgumentException e) {
         log.error("[exceptionHandler] [404] = {}",e.getMessage());
         Map<String, Object> responseBody = new HashMap<>();
