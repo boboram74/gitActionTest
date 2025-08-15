@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class Repo {
     private String owner;
-    private String name; //wqe
+    private String name;
 }

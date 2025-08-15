@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Message {
     private String role;
-    private String content; //qwe
+    private String content;
 }

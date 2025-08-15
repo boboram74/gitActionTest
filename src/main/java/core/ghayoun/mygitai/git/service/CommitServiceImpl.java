@@ -65,7 +65,7 @@ public class CommitServiceImpl implements CommitService {
         HttpEntity<OllamaRequest> requestEntity = new HttpEntity<>(requestPayload, headers);
 
         Map<String, String> fileToDelta = toMapFromPojo(data);
-        System.out.println("변환된 파일 = "+fileToDelta.toString());
+        System.out.println("변환된 파일 = "+fileToDelta);
 
 //        ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
 //        JsonNode rootNode = objectMapper.readTree(response.getBody());

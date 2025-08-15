@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Options {
     private int gpu_layers;
-    private double temperature; //wqe
+    private double temperature;
     private int num_predict;
     private int num_ctx;
 }
