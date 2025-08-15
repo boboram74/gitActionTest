@@ -1,6 +1,5 @@
 package core.ghayoun.mygitai.git.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import core.ghayoun.mygitai.git.domain.Message;
@@ -17,12 +16,15 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @RequiredArgsConstructor
 @Service
 public class CommitServiceImpl implements CommitService {
 
     private final RestTemplate restTemplate;
+    private final ObjectMapper objectMapper;
+    private final AtomicInteger count = new AtomicInteger(0);
 
     @Value("${llm.api.url}")
     private String url;
@@ -30,13 +32,9 @@ public class CommitServiceImpl implements CommitService {
     @Value("${llm.api.model}")
     private String model;
 
-    private int count;
-
     @Override
     public ResponseEntity<String> getMessage(String data) throws Exception{
-        ObjectMapper objectMapper = new ObjectMapper();
-        count++;
-        System.out.println("실행횟수 = " + count);
+        System.out.println("실행횟수 = " + count.incrementAndGet());
         long startTime = System.currentTimeMillis();
         List<Message> messages = Arrays.asList(
                 new Message("system", "당신은 여행전문가 입니다. 당신은 친절하게 답변해야합니다. 답변은 무조건 한국어로만 답변해주세요."),
@@ -56,7 +54,7 @@ public class CommitServiceImpl implements CommitService {
         long endTime = System.currentTimeMillis();
         long duration = endTime - startTime;
         double durationSec = duration / 1000.0;
-        System.out.println("실행시간 : " + durationSec);
+        System.out.println("실행시간 : " + durationSec + "초");
         return ResponseEntity.ok(data);
     }
 }
