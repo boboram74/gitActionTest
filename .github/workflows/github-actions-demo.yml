@@ -1,0 +1,54 @@
+name: Send commit messages + changed files (push, robust)
+
+on:
+  push:
+    branches: ['**']
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      APP_ENDPOINT: ${{ secrets.APP_ENDPOINT }}
+      APP_TOKEN:    ${{ secrets.APP_TOKEN }}
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const commits = context.payload.commits || [];
+            if (!commits.length) { core.info('no commits'); return; }
+
+            const base = context.payload.before;
+            const head = context.payload.after;
+
+            const cmp = await github.rest.repos.compareCommits({
+              owner, repo, base, head, per_page: 250
+            });
+
+            const files = (cmp.data.files || []).map(f => ({
+              filename: f.filename,
+              status:   f.status,       // added | removed | modified | renamed
+              additions: f.additions,
+              deletions: f.deletions,
+              changes:   f.changes
+            }));
+
+            const body = {
+              repo: { owner, name: repo },
+              ref:  context.payload.ref,
+              messages: commits.map(c => c.message),
+              files
+            };
+
+            const res = await fetch(process.env.APP_ENDPOINT, {
+              method: 'POST',
+              headers: {
+                'Authorization': `Bearer ${process.env.APP_TOKEN}`,
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(body)
+            });
+            core.info(`POST -> ${res.status}`);
+            if (!res.ok) core.setFailed(await res.text());
