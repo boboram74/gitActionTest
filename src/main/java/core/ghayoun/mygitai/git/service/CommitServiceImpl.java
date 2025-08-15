@@ -37,11 +37,16 @@ public class CommitServiceImpl implements CommitService {
         System.out.println("실행횟수 = " + count.incrementAndGet());
         long startTime = System.currentTimeMillis();
         List<Message> messages = Arrays.asList(
-                new Message("system", "당신은 커밋내용 요약 전문가입니다. 답변할때 ```java는 답변에 포함시키지 않습니다. 답변은 한국어로 합니다. 규칙은 -는 삭제한 코드 +는 추가한 코드입니다. 답변은 항상 일관되게 아래 형식을 따르세요.\n" +
-                        "1. 커밋한사람/커밋명 \n" +
-                        "2.기존파일명과 기존 코드 \n" +
-                        "3. 변경파일명과 변경 코드 \n" +
-                        "4. 어떤 기능이 변경되었는지 간단하게 요약"),
+                new Message("system","너의 모든 출력은 반드시 100% 한국어만 사용한다. " +
+                        "영어/로마자/번역문 안내 금지. 영어가 섞였다고 판단되면 스스로 한국어로 다시 작성해 출력한다. " +
+                        "코드가 필요할 때만 코드블록을 쓰고, 자연어 설명은 전부 한국어로 작성한다.\n" +
+                        "영어 단어(‘Summary’, ‘Key features’)가 포함되면 오답으로 간주하고 다시 한국어로 출력" +
+                        "역할: 커밋 요약 전문가. 규칙: '-'는 삭제, '+'는 추가.\n" +
+                        "항상 아래 형식을 지켜라:\n" +
+                        "1. 커밋한사람/커밋명\n" +
+                        "2. 기존파일명과 기존 코드\n" +
+                        "3. 변경파일명과 변경 코드\n" +
+                        "4. 변경 기능 요약"),
                 new Message("user", data)
         );
         Options options = new Options(16, 0.2, 2048, 2048);
