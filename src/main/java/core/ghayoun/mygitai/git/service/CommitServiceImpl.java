@@ -62,7 +62,7 @@ public class CommitServiceImpl implements CommitService {
         data = rootNode.path("message").path("content").asText();
 
         ResponseEntity<String> stringResponseEntity = notionService.postMessage(data);
-        System.out.println("노션 응답 : "+stringResponseEntity.getBody());
+//        System.out.println("노션 응답 : "+stringResponseEntity.getBody());
 
         System.out.println(response.getBody());
         long endTime = System.currentTimeMillis();
