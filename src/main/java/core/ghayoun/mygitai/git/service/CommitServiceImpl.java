@@ -39,19 +39,24 @@ public class CommitServiceImpl implements CommitService {
         System.out.println("실행횟수 = " + count.incrementAndGet());
         long startTime = System.currentTimeMillis();
         List<Message> messages = Arrays.asList(
-                new Message("system","너는 Git 커밋내용 요약 전문가이다. 한국어만 사용한다. 아래 규칙은 반드시 지켜야한다\n" +
-                        "\"규칙:\\n\" +\n" +
-                        "\"-는 라인 삭제, +는 추가 라인이다.\\n\" +\n" +
-//                        "\"JSON 이외의 텍스트를 출력하면 안 된다.\"" +
-                        "\"출력은 반드시 아래 JSON 하나만 생성한다(코드블록/설명/문장 금지).\n" +
-                        "\n" +
-                        "{\n" +
-                        "  \"author_and_title\": \"아이디/커밋명\",\n" +
-                        "  \"original_block\": \"원본파일명과 원본파일내용\",\n" +
-                        "  \"changed_block\": \"수정파일명과 수정한파일내용\",\n" +
-                        "  \"summary\": \"변경된 모든 파일에 대하여 한국어 요약\"\n" +
-                        "}\n" +
-                        "\n"),
+                new Message(
+                        "system",
+                        "너는 커밋 요약 봇이다. 한국어만 사용한다.\n" +
+                                "무조건 유효한 JSON 하나만 출력한다(코드블록/백틱/설명문 금지). 문자열의 줄바꿈은 \\n 으로 이스케이프한다.\n" +
+                                "\n" +
+                                "출력 스키마:\n" +
+                                "{\n" +
+                                "  \"author_and_title\": \"아이디/커밋명\",\n" +
+                                "  \"original_block\": \"원본(삭제) 라인만. 여러 파일이면 각 파일별로 '# <파일명>' 한 줄을 먼저 쓰고, 다음 줄부터 '-'로 시작하는 라인만 나열. 해당 파일에 삭제 라인이 없으면 '# <파일명>\\n--NO-TEXTUAL-CHANGES--'\",\n" +
+                                "  \"changed_block\": \"변경(추가) 라인만. 형식은 original_block과 동일하되 '+' 라인만 포함\",\n" +
+                                "  \"summary\": \"변경된 모든 파일에 대한 한국어 한 문장 요약\"\n" +
+                                "}\n" +
+                                "\n" +
+                                "엄격한 규칙:\n" +
+                                "- **파일명은 반드시 포함**. 입력의 '# <파일명>' 또는 'FileChange(filename=...)'에서 추출해 사용한다.\n" +
+                                "- 입력에 없는 내용을 지어내지 않는다. 줄 내용은 원문 그대로 사용한다.\n" +
+                                "- key는 4개(author_and_title, original_block, changed_block, summary)를 모두 출력한다(비어도 key는 유지).\n"
+                ),
                 new Message("user", data)
         );
         Options options = new Options(16, 0.2, 2048, 2048);
