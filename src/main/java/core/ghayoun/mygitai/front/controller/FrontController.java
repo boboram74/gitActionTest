@@ -1,4 +1,4 @@
-package core.ghayoun.mygitai.front;
+package core.ghayoun.mygitai.front.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
