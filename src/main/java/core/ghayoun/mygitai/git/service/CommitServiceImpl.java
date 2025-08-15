@@ -42,6 +42,7 @@ public class CommitServiceImpl implements CommitService {
         Map<String, String> fileToDelta = toMapFromPojo(data);
         System.out.println("변환된 파일 = "+fileToDelta);
         String userJson = objectMapper.writeValueAsString(fileToDelta);
+        System.out.println(userJson);
 
         List<Message> messages = Arrays.asList(
                 new Message(
