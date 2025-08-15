@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor //ㅂㅈㄷㅈㅂㄷㅂㅈㄷ
 public class Message {
     private String role;
     private String content;

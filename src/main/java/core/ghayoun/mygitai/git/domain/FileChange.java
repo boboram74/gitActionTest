@@ -13,7 +13,4 @@ public class FileChange {
     private Integer deletions;
     private Integer changes;
     private String delta;
-//    private String patch;
-//    private String beforeText;
-//    private String afterText;
 }

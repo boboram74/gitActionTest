@@ -3,5 +3,5 @@ package core.ghayoun.mygitai.git.service;
 import org.springframework.http.ResponseEntity;
 
 public interface CommitService {
-    ResponseEntity<String> getMessage(String data) throws Exception;
+    ResponseEntity<String> getMessage(String data) throws Exception; //여러개파일수정
 }
