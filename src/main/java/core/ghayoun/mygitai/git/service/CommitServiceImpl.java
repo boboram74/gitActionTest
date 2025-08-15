@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import core.ghayoun.mygitai.git.domain.Message;
 import core.ghayoun.mygitai.git.domain.OllamaRequest;
 import core.ghayoun.mygitai.git.domain.Options;
+import core.ghayoun.mygitai.notion.NotionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -22,6 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Service
 public class CommitServiceImpl implements CommitService {
 
+    private final NotionService notionService;
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
     private final AtomicInteger count = new AtomicInteger(0);
@@ -37,7 +39,7 @@ public class CommitServiceImpl implements CommitService {
         System.out.println("실행횟수 = " + count.incrementAndGet());
         long startTime = System.currentTimeMillis();
         List<Message> messages = Arrays.asList(
-                new Message("system","너의 모든 출력은 반드시 100% 한국어만 사용한다. " +
+                new Message("system","너의 답변은 반드시 한국어만 사용한다. " +
                         "영어/로마자/번역문 안내 금지. 영어가 섞였다고 판단되면 스스로 한국어로 다시 작성해 출력한다. " +
                         "코드가 필요할 때만 코드블록을 쓰고, 자연어 설명은 전부 한국어로 작성한다.\n" +
                         "영어 단어(‘Summary’, ‘Key features’)가 포함되면 오답으로 간주하고 다시 한국어로 출력" +
@@ -58,6 +60,9 @@ public class CommitServiceImpl implements CommitService {
 
         JsonNode rootNode = objectMapper.readTree(response.getBody());
         data = rootNode.path("message").path("content").asText();
+
+        ResponseEntity<String> stringResponseEntity = notionService.postMessage(data);
+        System.out.println("노션 응답 : "+stringResponseEntity.getBody());
 
         System.out.println(response.getBody());
         long endTime = System.currentTimeMillis();
