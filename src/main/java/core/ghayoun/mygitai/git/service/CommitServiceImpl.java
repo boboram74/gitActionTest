@@ -34,13 +34,17 @@ public class CommitServiceImpl implements CommitService {
 
     @Value("${llm.api.prompt}")
     private String prompt;
-    
+
     @Override
     public ResponseEntity<String> getMessage(String data) throws Exception{
         System.out.println("실행횟수 = " + count.incrementAndGet());
         long startTime = System.currentTimeMillis();
         List<Message> messages = Arrays.asList(
-                new Message("system", prompt),
+                new Message("system", "당신은 커밋내용 요약 전문가입니다. 규칙은 -는 삭제한 코드 +는 추가한 코드입니다.답변은 항상 일관되게 아래 형식을 따르세요.\n" +
+                        "1. 커밋한사람/커밋명 \n" +
+                        "2.기존파일명과 기존 코드 \n" +
+                        "3. 변경파일명과 변경 코드 \n" +
+                        "4. 어떤 기능이 변경되었는지 간단하게 요약"),
                 new Message("user", data)
         );
         System.out.println("요청한 프롬프트 = " + prompt);
