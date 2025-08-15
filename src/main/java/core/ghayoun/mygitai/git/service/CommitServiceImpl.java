@@ -1,6 +1,5 @@
 package core.ghayoun.mygitai.git.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import core.ghayoun.mygitai.git.domain.*;
 import core.ghayoun.mygitai.notion.NotionService;
@@ -35,7 +34,7 @@ public class CommitServiceImpl implements CommitService {
     private String model;
 
     @Override
-    public ResponseEntity<String> getMessage(String data) throws Exception{
+    public ResponseEntity<String> getMessage(GitRequest data) throws Exception{
         System.out.println("실행횟수 = " + count.incrementAndGet());
         long startTime = System.currentTimeMillis();
         List<Message> messages = Arrays.asList(
@@ -57,29 +56,28 @@ public class CommitServiceImpl implements CommitService {
                                 "- 입력에 없는 내용을 지어내지 않는다. 줄 내용은 원문 그대로 사용한다.\n" +
                                 "- key는 4개(author_and_title, original_block, changed_block, summary)를 모두 출력한다(비어도 key는 유지).\n"
                 ),
-                new Message("user", data)
+                new Message("user", data.toString())
         );
         Options options = new Options(16, 0.1, 2048, 2048);
         OllamaRequest requestPayload = new OllamaRequest(model, messages, false, options,"json");
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<OllamaRequest> requestEntity = new HttpEntity<>(requestPayload, headers);
-        GitRequest req = objectMapper.readValue(data, GitRequest.class);
-        Map<String, String> fileToDelta = toMapFromPojo(req);
-        System.out.println("변환된 파일 = "+fileToDelta.toString());
-//        ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
 
+        Map<String, String> fileToDelta = toMapFromPojo(data);
+        System.out.println("변환된 파일 = "+fileToDelta.toString());
+
+//        ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
 //        JsonNode rootNode = objectMapper.readTree(response.getBody());
 //        data = rootNode.path("message").path("content").asText();
 //        System.out.println(response.getBody());
-
 //        notionService.postMessage(data);
 
         long endTime = System.currentTimeMillis();
         long duration = endTime - startTime;
         double durationSec = duration / 1000.0;
         System.out.println("실행시간 : " + durationSec + "초");
-        return ResponseEntity.ok(data);
+        return ResponseEntity.ok().build();
     }
 
     Map<String, String> toMapFromPojo(GitRequest req) {
