@@ -37,7 +37,7 @@ public class CommitServiceImpl implements CommitService {
         System.out.println("실행횟수 = " + count.incrementAndGet());
         long startTime = System.currentTimeMillis();
         List<Message> messages = Arrays.asList(
-                new Message("system", "당신은 여행전문가 입니다. 당신은 친절하게 답변해야합니다. 답변은 무조건 한국어로만 답변해주세요."),
+                new Message("system", "당신은 커밋내용 요약 전문가입니다."),
                 new Message("user", data)
         );
         Options options = new Options(16, 0.2, 2048, 2048);

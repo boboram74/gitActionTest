@@ -27,6 +27,8 @@ public class CommitController {
         System.out.println(data); //하이 주석을 추가했어요!
         String text = String.join("\n", data.getMessages());
         System.out.println(text);
+        ResponseEntity<String> message = commitService.getMessage(data.toString());
+        System.out.println("AI응답" + message.getBody());
         return new ResponseEntity<>("성공", HttpStatus.OK);
     }
 }
