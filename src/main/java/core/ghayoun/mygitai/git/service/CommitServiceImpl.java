@@ -40,7 +40,10 @@ public class CommitServiceImpl implements CommitService {
         long startTime = System.currentTimeMillis();
         List<Message> messages = Arrays.asList(
                 new Message("system","너는 커밋 요약 봇이다. 한국어만 사용한다.\n" +
-                        "출력은 반드시 아래 JSON 하나만 생성한다(코드블록/설명/문장 금지).\n" +
+                        "\"규칙:\\n\" +\n" +
+                        "\" -는 삭제, +는 추가 라인이다.\\n\" +\n" +
+                        "\"JSON 이외의 텍스트를 출력하면 안 된다.\"" +
+                        "\"출력은 반드시 아래 JSON 하나만 생성한다(코드블록/설명/문장 금지).\n" +
                         "\n" +
                         "{\n" +
                         "  \"author_and_title\": \"아이디/커밋명\",\n" +
@@ -48,10 +51,7 @@ public class CommitServiceImpl implements CommitService {
                         "  \"changed_block\": \"수정파일명과 수정한파일내용\",\n" +
                         "  \"summary\": \"한 문장 한국어 요약\"\n" +
                         "}\n" +
-                        "\n" +
-                        "규칙:\n" +
-                        "- '-'는 삭제, '+'는 추가 라인이다.\n" +
-                        "- JSON 이외의 텍스트를 출력하면 안 된다."),
+                        "\n"),
                 new Message("user", data)
         );
         Options options = new Options(16, 0.2, 2048, 2048);
