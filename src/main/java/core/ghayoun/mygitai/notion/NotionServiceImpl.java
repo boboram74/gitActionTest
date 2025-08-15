@@ -35,7 +35,6 @@ public class NotionServiceImpl implements NotionService{
     public ResponseEntity<String> postMessage(String data) throws Exception {
         String cleaned = data == null ? "" : data.trim();
         if (cleaned.startsWith("```")) {
-            // 앞/뒤의 ``` 또는 ```json 제거 (있으면)
             cleaned = cleaned.replaceFirst("^```(?:json)?\\s*", "");
             cleaned = cleaned.replaceFirst("\\s*```$", "");
         }
@@ -52,7 +51,7 @@ public class NotionServiceImpl implements NotionService{
         System.out.println("authorAndTitle = " + authorAndTitle);
         System.out.println("originalBlock = " + originalBlock);
         System.out.println("changedBlock = " + changedBlock);
-        System.out.println("summary = " + summary);
+        System.out.println("summary = " + summary); //성공했니다 문혁씨
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

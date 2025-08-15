@@ -63,10 +63,10 @@ public class CommitServiceImpl implements CommitService {
 
         JsonNode rootNode = objectMapper.readTree(response.getBody());
         data = rootNode.path("message").path("content").asText();
-
-        ResponseEntity<String> stringResponseEntity = notionService.postMessage(data);
-
         System.out.println(response.getBody());
+
+        notionService.postMessage(data);
+
         long endTime = System.currentTimeMillis();
         long duration = endTime - startTime;
         double durationSec = duration / 1000.0;
