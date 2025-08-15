@@ -10,10 +10,10 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OllamaRequest {
+public class OllamaRequest { //wqe
     private String model;
     private List<Message> messages;
     private boolean stream;
     private Options options;
-    private String format;//qwe
+    private String format;
 }

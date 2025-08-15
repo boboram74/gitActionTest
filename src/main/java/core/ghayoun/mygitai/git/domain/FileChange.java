@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class FileChange {
-    private String filename;
+    private String filename; //wqe
     private String previousFilename;
     private String status;
     private Integer additions;
