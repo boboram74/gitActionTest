@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Data
-@NoArgsConstructor//ㅂㅈㄷㅂㅈㄷ
+@NoArgsConstructor
 @AllArgsConstructor
 public class OllamaRequest {
     private String model;

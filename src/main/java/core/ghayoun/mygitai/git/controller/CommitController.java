@@ -25,7 +25,6 @@ public class CommitController {
     @PostMapping("/commit") //자자뭘해볼까
     public ResponseEntity<String> getCommitMessges(@RequestBody GitRequest data) throws Exception {
         System.out.println("데이터원문 = "+data.toString());
-        System.out.println("파일 = "+data.getFiles());
         ResponseEntity<String> message = commitService.getMessage(data.toString());
         System.out.println("AI응답 = \n" + message.getBody());
         return new ResponseEntity<>("성공", HttpStatus.OK);
