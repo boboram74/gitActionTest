@@ -44,7 +44,7 @@ public class CommitServiceImpl implements CommitService {
                         "4. 어떤 기능이 변경되었는지 간단하게 요약"),
                 new Message("user", data)
         );
-        Options options = new Options(16, 0.0, 2048, 2048);
+        Options options = new Options(16, 0.2, 2048, 2048);
         OllamaRequest requestPayload = new OllamaRequest(model, messages, false, options);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
