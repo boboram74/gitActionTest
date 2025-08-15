@@ -44,8 +44,8 @@ public class CommitServiceImpl implements CommitService {
                         "\n" +
                         "{\n" +
                         "  \"author_and_title\": \"아이디/커밋명\",\n" +
-                        "  \"original_block\": \"각 파일은 '# 파일경로' 헤더 한 줄 뒤에 '-'로 시작하는 삭제 라인만 나열\",\n" +
-                        "  \"changed_block\": \"각 파일은 '# 파일경로' 헤더 한 줄 뒤에 '+'로 시작하는 추가 라인만 나열\",\n" +
+                        "  \"original_block\": \"원본파일명과 원본파일내용\",\n" +
+                        "  \"changed_block\": \"수정파일명과 수정한파일내용\",\n" +
                         "  \"summary\": \"한 문장 한국어 요약\"\n" +
                         "}\n" +
                         "\n" +

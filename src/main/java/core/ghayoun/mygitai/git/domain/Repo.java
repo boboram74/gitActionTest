@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class Repo {
-    private String owner;
+    private String owner;//ㅂㅈㄷㅈㅂㄷㅂㅈㄷ
     private String name;
 }
