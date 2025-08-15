@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class userRequest {
-    private String data; //여러파일 테스트
+    private String data;
 }

@@ -40,7 +40,6 @@ public class CommitServiceImpl implements CommitService {
         long startTime = System.currentTimeMillis();
 
         Map<String, String> fileToDelta = toMapFromPojo(data);
-        System.out.println("변환된 파일 = "+fileToDelta);
         String userJson = objectMapper.writeValueAsString(fileToDelta);
         List<Message> messages = Arrays.asList(
                 new Message(
@@ -56,7 +55,6 @@ public class CommitServiceImpl implements CommitService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<OllamaRequest> requestEntity = new HttpEntity<>(requestPayload, headers);
         ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
-        System.out.println("AI응답 = \n"+response.getBody());
         JsonNode rootNode = objectMapper.readTree(response.getBody());
         String llmResponse = rootNode.path("message").path("content").asText();
 
