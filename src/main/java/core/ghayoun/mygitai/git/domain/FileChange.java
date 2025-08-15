@@ -15,5 +15,4 @@ public class FileChange {
     private String patch;
     private String beforeText;
     private String afterText;
-
 }
