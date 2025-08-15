@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 @Data
-@JsonIgnoreProperties(ignoreUnknown = true) //ㅂㅈㄷ
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class FileChange {
     private String filename;
     private String previousFilename;
