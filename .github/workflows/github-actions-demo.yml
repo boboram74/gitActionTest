@@ -29,11 +29,11 @@ jobs:
 
             const MAX_DIFF_LINES = 30000;
             const simplifyPatch = (p) => {
-              if (!p) return null;
+              if (!p) return null; // 바이너리/대용량 등
               const lines = p.split('\n').filter(l => {
-                if (l.startsWith('@@')) return false;
-                if (l.startsWith('+++') || l.startsWith('---')) return false;
-                return l.startsWith('+') || l.startsWith('-');
+                if (l.startsWith('@@')) return false;           // hunk header 제거
+                if (l.startsWith('+++') || l.startsWith('---')) return false; // 파일 헤더 제거
+                return l.startsWith('+') || l.startsWith('-');   // 변경 라인만
               });
               const cut = lines.slice(0, MAX_DIFF_LINES);
               return cut.join('\n') + (lines.length > MAX_DIFF_LINES ? '\n--TRUNCATED--' : '');
@@ -47,11 +47,13 @@ jobs:
               deletions: f.deletions,
               changes:   f.changes,
               delta:    (() => {
-                        const d = simplifyPatch(f.patch);
-                        if (!d) return null;
-                        const label = f.previous_filename ? `${f.previous_filename} -> ${f.filename}` : f.filename;
-                        return d.split('\n').map(line => `${label} ${line}`).join('\n');
-                      })()
+                const label = f.previous_filename
+                  ? `${f.previous_filename} -> ${f.filename}`
+                  : f.filename;
+                const d = simplifyPatch(f.patch);
+                // 🔹 파일당 헤더 1줄 + +/- 변경 라인만
+                return `# ${label}\n${d ?? '--NO-TEXTUAL-CHANGES--'}`;
+              })()
             }));
 
             const body = {
