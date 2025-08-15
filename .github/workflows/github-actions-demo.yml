@@ -27,12 +27,42 @@ jobs:
               owner, repo, base, head, per_page: 250
             });
 
-            const files = (cmp.data.files || []).map(f => ({
-              filename: f.filename,
-              status:   f.status,       // added | removed | modified | renamed
-              additions: f.additions,
-              deletions: f.deletions,
-              changes:   f.changes
+            const MAX_BYTES = 200 * 1024;
+            const MAX_CHARS = 20000;
+
+            const getText = async (path, ref) => {
+              if (!path) return null;
+              try {
+                const { data } = await github.rest.repos.getContent({ owner, repo, path, ref });
+                if (!data || data.type !== 'file') return null;
+                if (data.size > MAX_BYTES) return null;
+                const buf = Buffer.from(data.content || '', data.encoding || 'base64');
+                if (buf.includes(0)) return null;
+                let text = buf.toString('utf8');
+                if (text.length > MAX_CHARS) text = text.slice(0, MAX_CHARS) + '\n--TRUNCATED--';
+                return text;
+              } catch { return null; }
+            };
+            const files = await Promise.all((cmp.data.files || []).map(async f => {
+              const status = f.status; // added | removed | modified | renamed
+              const beforePath = status === 'added'   ? null : (f.previous_filename || f.filename);
+              const afterPath  = status === 'removed' ? null : f.filename;
+              const [beforeText, afterText] = await Promise.all([
+                getText(beforePath, base),
+                getText(afterPath,  head)
+              ]);
+
+              return {
+                filename: f.filename,
+                previous_filename: f.previous_filename ?? null,
+                status:   f.status,
+                additions: f.additions,
+                deletions: f.deletions,
+                changes:   f.changes,
+                patch:     f.patch ?? null,
+                beforeText,
+                afterText
+              };
             }));
 
             const body = {
