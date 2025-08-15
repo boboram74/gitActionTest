@@ -14,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -41,16 +42,38 @@ public class NotionServiceImpl implements NotionService{
         ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
         String originalBlock = "";
         String changedBlock  = "";
+
         if (userJson != null && !userJson.isBlank()) {
-            String cleaned = userJson.trim();
-            if (cleaned.startsWith("```")) {
-                cleaned = cleaned.replaceFirst("^```(?:json)?\\s*", "");
-                cleaned = cleaned.replaceFirst("\\s*```$", "");
+            ObjectMapper m = new ObjectMapper();
+            Map<String, String> diffMap = m.readValue(userJson, new com.fasterxml.jackson.core.type.TypeReference<Map<String, String>>() {});
+
+            StringBuilder minusAll = new StringBuilder();
+            StringBuilder plusAll  = new StringBuilder();
+
+            for (Map.Entry<String, String> e : diffMap.entrySet()) {
+                String file = e.getKey();
+                String diff = Objects.toString(e.getValue(), "");
+
+                StringBuilder minusPerFile = new StringBuilder();
+                StringBuilder plusPerFile  = new StringBuilder();
+                boolean hasMinus = false, hasPlus = false;
+
+                for (String line : diff.split("\\r?\\n")) {
+                    if (line.startsWith("-")) {
+                        if (!hasMinus) { minusPerFile.append("# ").append(file).append('\n'); hasMinus = true; }
+                        minusPerFile.append(line).append('\n');
+                    } else if (line.startsWith("+")) {
+                        if (!hasPlus)  { plusPerFile.append("# ").append(file).append('\n');  hasPlus  = true; }
+                        plusPerFile.append(line).append('\n');
+                    }
+                }
+                if (hasMinus) minusAll.append(minusPerFile);
+                if (hasPlus)  plusAll.append(plusPerFile);
             }
-            com.fasterxml.jackson.databind.JsonNode uj = mapper.readTree(cleaned);
-            originalBlock = uj.path("original_block").asText("");
-            changedBlock  = uj.path("changed_block").asText("");
+            originalBlock = minusAll.toString().trim();
+            changedBlock  = plusAll.toString().trim();
         }
+
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
