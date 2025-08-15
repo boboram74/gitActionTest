@@ -28,7 +28,6 @@ public class NotionServiceImpl implements NotionService{
     private String databaseId;
 
     private static final String NOTION_VERSION = "2022-06-28";
-    private static final String PAGES_URL = "https://api.notion.com/v1/pages";
 
     @Override
     public ResponseEntity<String> postMessage(String data) throws Exception {
@@ -47,6 +46,6 @@ public class NotionServiceImpl implements NotionService{
                 )
         );
         HttpEntity<Map<String, Object>> req = new HttpEntity<>(payload, headers);
-        return restTemplate.postForEntity(PAGES_URL, req, String.class);
+        return restTemplate.postForEntity(url, req, String.class);
     }
 }

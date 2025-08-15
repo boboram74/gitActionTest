@@ -48,7 +48,7 @@ public class CommitServiceImpl implements CommitService {
                         "1. 커밋한사람/커밋명\n" +
                         "2. 기존파일명과 기존 코드\n" +
                         "3. 변경파일명과 변경 코드\n" +
-                        "4. 변경 기능 요약"),
+                        "4. 변경 기능 요약(구체적으로)"),
                 new Message("user", data)
         );
         Options options = new Options(16, 0.2, 2048, 2048);
