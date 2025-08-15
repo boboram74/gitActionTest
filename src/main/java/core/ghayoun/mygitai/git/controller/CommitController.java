@@ -27,6 +27,6 @@ public class CommitController {
         System.out.println("데이터원문 = "+data.toString());
         ResponseEntity<String> message = commitService.getMessage(data.toString());
         System.out.println("AI응답 = \n" + message.getBody());
-        return new ResponseEntity<>("성공", HttpStatus.OK);
+        return new ResponseEntity<>("성공", HttpStatus.OK);//ㅂㅈㄷ
     }
 }

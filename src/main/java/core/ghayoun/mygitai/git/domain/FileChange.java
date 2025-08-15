@@ -12,5 +12,5 @@ public class FileChange {
     private Integer additions;
     private Integer deletions;
     private Integer changes;
-    private String delta;
+    private String delta; //ㅂㅈㄷ
 }
