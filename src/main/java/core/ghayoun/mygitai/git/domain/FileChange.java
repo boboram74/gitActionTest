@@ -12,7 +12,7 @@ public class FileChange {
     private Integer additions;
     private Integer deletions;
     private Integer changes;
-    private Integer patch;
+    private String patch;
     private String beforeText;
     private String afterText;
 
