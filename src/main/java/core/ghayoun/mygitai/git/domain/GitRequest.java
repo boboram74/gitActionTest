@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GitRequest {
+public class GitRequest {//ㅂㅈㄷㅂㅈㅈㄷ
     private Repo repo;
     private String ref;
     private List<String> messages;

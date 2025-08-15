@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Options {
+public class Options {//ㅋㅋ
     private int gpu_layers;
     private double temperature;
     private int num_predict;

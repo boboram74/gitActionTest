@@ -22,7 +22,7 @@ public class CommitController {
     }
 
     @ResponseBody
-    @PostMapping("/commit")
+    @PostMapping("/commit") //자자뭘해볼까
     public ResponseEntity<String> getCommitMessges(@RequestBody GitRequest data) throws Exception {
         System.out.println("데이터원문 = "+data.toString());
         System.out.println("파일 = "+data.getFiles());
