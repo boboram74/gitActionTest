@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties(ignoreUnknown = true) //ㅂㅈㄷ
 public class GitRequest {
     private Repo repo;
     private String ref;

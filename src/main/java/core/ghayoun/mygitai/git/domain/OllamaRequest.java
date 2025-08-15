@@ -9,7 +9,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor //ㅂㅈㄷ
 public class OllamaRequest {
     private String model;
     private List<Message> messages;

@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
+@NoArgsConstructor //ㅂㅈㄷ
 @AllArgsConstructor
 public class Message {
     private String role;

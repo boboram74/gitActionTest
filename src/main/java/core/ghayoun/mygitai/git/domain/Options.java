@@ -12,4 +12,4 @@ public class Options {
     private double temperature;
     private int num_predict;
     private int num_ctx;
-}
+} //ㅂㅈㄷ
