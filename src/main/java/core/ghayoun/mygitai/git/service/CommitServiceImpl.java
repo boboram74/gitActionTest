@@ -39,16 +39,19 @@ public class CommitServiceImpl implements CommitService {
         System.out.println("실행횟수 = " + count.incrementAndGet());
         long startTime = System.currentTimeMillis();
         List<Message> messages = Arrays.asList(
-                new Message("system","너의 답변은 반드시 한국어만 사용한다. " +
-                        "영어/로마자/번역문 안내 금지. 영어가 섞였다고 판단되면 스스로 한국어로 다시 작성해 출력한다. " +
-                        "코드가 필요할 때만 코드블록을 쓰고, 자연어 설명은 전부 한국어로 작성한다.\n" +
-                        "영어 단어(‘Summary’, ‘Key features’)가 포함되면 오답으로 간주하고 다시 한국어로 출력" +
-                        "역할: 커밋 요약 전문가. 규칙: '-'는 삭제, '+'는 추가.\n" +
-                        "항상 아래 형식을 지켜라 제목 뒤:에 너의 답변을 작성해라\n" +
-                        "1. 커밋한사람/커밋명:\n" +
-                        "2. 기존파일명과 기존 코드:\n" +
-                        "3. 변경파일명과 변경 코드:\n" +
-                        "4. 커밋으로 변경점 요약:"),
+                new Message("system","너는 커밋 요약 봇이다. 한국어만 사용한다.\n" +
+                        "출력은 반드시 아래 JSON 하나만 생성한다(코드블록/설명/문장 금지).\n" +
+                        "\n" +
+                        "{\n" +
+                        "  \"author_and_title\": \"아이디/커밋명\",\n" +
+                        "  \"original_block\": \"각 파일은 '# 파일경로' 헤더 한 줄 뒤에 '-'로 시작하는 삭제 라인만 나열\",\n" +
+                        "  \"changed_block\": \"각 파일은 '# 파일경로' 헤더 한 줄 뒤에 '+'로 시작하는 추가 라인만 나열\",\n" +
+                        "  \"summary\": \"한 문장 한국어 요약\"\n" +
+                        "}\n" +
+                        "\n" +
+                        "규칙:\n" +
+                        "- '-'는 삭제, '+'는 추가 라인이다.\n" +
+                        "- JSON 이외의 텍스트를 출력하면 안 된다."),
                 new Message("user", data)
         );
         Options options = new Options(16, 0.2, 2048, 2048);
