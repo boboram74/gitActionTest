@@ -52,7 +52,7 @@ public class CommitServiceImpl implements CommitService {
                 new Message("user", userJson)
         );
         Options options = new Options(16, 0.2, 2048, 2048);
-        OllamaRequest requestPayload = new OllamaRequest(model, messages, false, options,"json");
+        OllamaRequest requestPayload = new OllamaRequest(model, messages, false, options);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<OllamaRequest> requestEntity = new HttpEntity<>(requestPayload, headers);
@@ -75,7 +75,6 @@ public class CommitServiceImpl implements CommitService {
 
             String delta = f.getDelta();
             if (delta == null) delta = "";
-            // "# 파일명" 헤더 제거
             if (delta.startsWith("#")) {
                 int nl = delta.indexOf('\n');
                 if (nl != -1) delta = delta.substring(nl + 1);
