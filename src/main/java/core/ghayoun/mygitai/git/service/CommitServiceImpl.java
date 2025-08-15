@@ -2,9 +2,7 @@ package core.ghayoun.mygitai.git.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import core.ghayoun.mygitai.git.domain.Message;
-import core.ghayoun.mygitai.git.domain.OllamaRequest;
-import core.ghayoun.mygitai.git.domain.Options;
+import core.ghayoun.mygitai.git.domain.*;
 import core.ghayoun.mygitai.notion.NotionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,7 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @RequiredArgsConstructor
@@ -64,18 +64,40 @@ public class CommitServiceImpl implements CommitService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<OllamaRequest> requestEntity = new HttpEntity<>(requestPayload, headers);
-        ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
+        GitRequest req = objectMapper.readValue(data, GitRequest.class);
+        Map<String, String> fileToDelta = toMapFromPojo(req);
+        System.out.println("변환된 파일 = "+fileToDelta.toString());
+//        ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
 
-        JsonNode rootNode = objectMapper.readTree(response.getBody());
-        data = rootNode.path("message").path("content").asText();
-        System.out.println(response.getBody());
+//        JsonNode rootNode = objectMapper.readTree(response.getBody());
+//        data = rootNode.path("message").path("content").asText();
+//        System.out.println(response.getBody());
 
-        notionService.postMessage(data);
+//        notionService.postMessage(data);
 
         long endTime = System.currentTimeMillis();
         long duration = endTime - startTime;
         double durationSec = duration / 1000.0;
         System.out.println("실행시간 : " + durationSec + "초");
         return ResponseEntity.ok(data);
+    }
+
+    Map<String, String> toMapFromPojo(GitRequest req) {
+        Map<String, String> out = new LinkedHashMap<>();
+        for (FileChange f : req.getFiles()) {
+            String label = (f.getPreviousFilename() != null)
+                    ? f.getPreviousFilename() + " -> " + f.getFilename()
+                    : f.getFilename();
+
+            String delta = f.getDelta();
+            if (delta == null) delta = "";
+            // "# 파일명" 헤더 제거
+            if (delta.startsWith("#")) {
+                int nl = delta.indexOf('\n');
+                if (nl != -1) delta = delta.substring(nl + 1);
+            }
+            out.put(label, delta.trim());
+        }
+        return out;
     }
 }
