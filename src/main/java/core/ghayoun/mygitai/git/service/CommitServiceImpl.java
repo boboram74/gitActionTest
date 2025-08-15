@@ -34,7 +34,7 @@ public class CommitServiceImpl implements CommitService {
 
     @Value("${llm.api.prompt}")
     private String prompt;
-
+    
     @Override
     public ResponseEntity<String> getMessage(String data) throws Exception{
         System.out.println("실행횟수 = " + count.incrementAndGet());
