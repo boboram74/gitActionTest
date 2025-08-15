@@ -32,9 +32,6 @@ public class CommitServiceImpl implements CommitService {
     @Value("${llm.api.model}")
     private String model;
 
-    @Value("${llm.api.prompt}")
-    private String prompt;
-
     @Override
     public ResponseEntity<String> getMessage(String data) throws Exception{
         System.out.println("실행횟수 = " + count.incrementAndGet());
@@ -47,7 +44,6 @@ public class CommitServiceImpl implements CommitService {
                         "4. 어떤 기능이 변경되었는지 간단하게 요약"),
                 new Message("user", data)
         );
-        System.out.println("요청한 프롬프트 = " + prompt);
         Options options = new Options(16, 0.0, 2048, 2048);
         OllamaRequest requestPayload = new OllamaRequest(model, messages, false, options);
         HttpHeaders headers = new HttpHeaders();
