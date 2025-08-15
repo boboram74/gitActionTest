@@ -1,5 +1,7 @@
 package core.ghayoun.mygitai.notion;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -31,10 +33,16 @@ public class NotionServiceImpl implements NotionService{
 
     @Override
     public ResponseEntity<String> postMessage(String data) throws Exception {
-        String title   = data;
-        String oldCode = "- old line 1\n- old line 2";
-        String newCode = "+ new line 1\n+ new line 2";
-        String summary = "기능 A의 예외 처리 강화";
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, Object> m = mapper.readValue(data, new TypeReference<Map<String, Object>>() {});
+        String authorAndTitle = String.valueOf(m.getOrDefault("author_and_title", ""));
+        String originalBlock  = String.valueOf(m.getOrDefault("original_block", ""));
+        String changedBlock   = String.valueOf(m.getOrDefault("changed_block", ""));
+        String summary        = String.valueOf(m.getOrDefault("summary", ""));
+        System.out.println("authorAndTitle = " + authorAndTitle);
+        System.out.println("originalBlock = " + originalBlock);
+        System.out.println("changedBlock = " + changedBlock);
+        System.out.println("summary = " + summary);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -43,13 +51,13 @@ public class NotionServiceImpl implements NotionService{
 
         Map<String, Object> properties = new java.util.LinkedHashMap<>();
         properties.put("커밋한사람/커밋명", Map.of(
-                "title", List.of(Map.of("text", Map.of("content", title)))
+                "title", List.of(Map.of("text", Map.of("content", authorAndTitle)))
         ));
         properties.put("기존파일명과 기존 코드", Map.of(
-                "rich_text", List.of(Map.of("text", Map.of("content", oldCode)))
+                "rich_text", List.of(Map.of("text", Map.of("content", originalBlock)))
         ));
         properties.put("변경파일명과 변경 코드", Map.of(
-                "rich_text", List.of(Map.of("text", Map.of("content", newCode)))
+                "rich_text", List.of(Map.of("text", Map.of("content", changedBlock)))
         ));
         properties.put("요약", Map.of(
                 "rich_text", List.of(Map.of("text", Map.of("content", summary)))
