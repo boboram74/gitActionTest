@@ -33,6 +33,16 @@ public class NotionServiceImpl implements NotionService{
 
     @Override
     public ResponseEntity<String> postMessage(String data) throws Exception {
+        String cleaned = data == null ? "" : data.trim();
+        if (cleaned.startsWith("```")) {
+            // 앞/뒤의 ``` 또는 ```json 제거 (있으면)
+            cleaned = cleaned.replaceFirst("^```(?:json)?\\s*", "");
+            cleaned = cleaned.replaceFirst("\\s*```$", "");
+        }
+        int s = cleaned.indexOf('{');
+        int e = cleaned.lastIndexOf('}');
+        data = (s >= 0 && e > s) ? cleaned.substring(s, e + 1) : "{}";
+
         ObjectMapper mapper = new ObjectMapper();
         Map<String, Object> m = mapper.readValue(data, new TypeReference<Map<String, Object>>() {});
         String authorAndTitle = String.valueOf(m.getOrDefault("author_and_title", ""));
