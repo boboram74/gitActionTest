@@ -1,5 +1,6 @@
 package core.ghayoun.mygitai.git.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import core.ghayoun.mygitai.git.domain.*;
 import core.ghayoun.mygitai.notion.NotionService;
@@ -45,16 +46,11 @@ public class CommitServiceImpl implements CommitService {
                                 "\n" +
                                 "출력 스키마:\n" +
                                 "{\n" +
-                                "  \"author_and_title\": \"아이디/커밋명\",\n" +
-                                "  \"original_block\": \"원본(삭제) 라인만. 여러 파일이면 각 파일별로 '# <파일명>' 한 줄을 먼저 쓰고, 다음 줄부터 '-'로 시작하는 라인만 나열. 해당 파일에 삭제 라인이 없으면 '# <파일명>\\n--NO-TEXTUAL-CHANGES--'\",\n" +
-                                "  \"changed_block\": \"변경(추가) 라인만. 형식은 original_block과 동일하되 '+' 라인만 포함\",\n" +
                                 "  \"summary\": \"변경된 모든 파일에 대한 한국어 한 문장 요약\"\n" +
                                 "}\n" +
                                 "\n" +
                                 "엄격한 규칙:\n" +
-                                "- **파일명은 반드시 포함**. 입력의 '# <파일명>' 또는 'FileChange(filename=...)'에서 추출해 사용한다.\n" +
-                                "- 입력에 없는 내용을 지어내지 않는다. 줄 내용은 원문 그대로 사용한다.\n" +
-                                "- key는 4개(author_and_title, original_block, changed_block, summary)를 모두 출력한다(비어도 key는 유지).\n"
+                                "- 입력에 없는 내용을 지어내지 않는다. 줄 내용은 원문 그대로 사용한다.\n"
                 ),
                 new Message("user", data.toString())
         );
@@ -67,10 +63,8 @@ public class CommitServiceImpl implements CommitService {
         Map<String, String> fileToDelta = toMapFromPojo(data);
         System.out.println("변환된 파일 = "+fileToDelta);
 
-//        ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
-//        JsonNode rootNode = objectMapper.readTree(response.getBody());
-//        data = rootNode.path("message").path("content").asText();
-//        System.out.println(response.getBody());
+        ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
+        System.out.println(response.getBody());
 //        notionService.postMessage(data);
 
         long endTime = System.currentTimeMillis();
