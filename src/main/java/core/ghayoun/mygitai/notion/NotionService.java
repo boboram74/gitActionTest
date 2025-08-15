@@ -6,5 +6,5 @@ import org.springframework.http.ResponseEntity;
 import java.util.Map;
 
 public interface NotionService {
-    ResponseEntity<String> postMessage(GitRequest data, String userJson, ResponseEntity<String> llmResponse) throws Exception;
+    ResponseEntity<String> postMessage(GitRequest data, String userJson, String llmResponse) throws Exception;
 }

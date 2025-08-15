@@ -58,8 +58,10 @@ public class CommitServiceImpl implements CommitService {
         HttpEntity<OllamaRequest> requestEntity = new HttpEntity<>(requestPayload, headers);
         ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
         System.out.println("AI응답 = \n"+response.getBody());
+        JsonNode rootNode = objectMapper.readTree(response.getBody());
+        String llmResponse = rootNode.path("message").path("content").asText();
 
-        notionService.postMessage(data,userJson,response);
+        notionService.postMessage(data,userJson,llmResponse);
 
         long endTime = System.currentTimeMillis();
         long duration = endTime - startTime;
