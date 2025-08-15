@@ -41,6 +41,7 @@ public class CommitServiceImpl implements CommitService {
 
         Map<String, String> fileToDelta = toMapFromPojo(data);
         System.out.println("변환된 파일 = "+fileToDelta);
+        String userJson = objectMapper.writeValueAsString(fileToDelta);
 
         List<Message> messages = Arrays.asList(
                 new Message(
@@ -56,7 +57,7 @@ public class CommitServiceImpl implements CommitService {
                                 "엄격한 규칙:\n" +
                                 "- 입력에 없는 내용을 지어내지 않는다. 줄 내용은 원문 그대로 사용한다.\n"
                 ),
-                new Message("user", fileToDelta.toString())
+                new Message("user", userJson)
         );
         Options options = new Options(16, 0.1, 2048, 2048);
         OllamaRequest requestPayload = new OllamaRequest(model, messages, false, options,"json");
@@ -64,9 +65,8 @@ public class CommitServiceImpl implements CommitService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<OllamaRequest> requestEntity = new HttpEntity<>(requestPayload, headers);
         ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
-        System.out.println(response.getBody());
+        System.out.println("AI응답 = \n"+response.getBody());
 //        notionService.postMessage(data);
-
         long endTime = System.currentTimeMillis();
         long duration = endTime - startTime;
         double durationSec = duration / 1000.0;
