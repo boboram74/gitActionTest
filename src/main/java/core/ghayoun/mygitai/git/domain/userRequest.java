@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class userRequest {
-    private String data; //ㅗㅑ~~
+    private String data;
 }
