@@ -24,9 +24,9 @@ public class CommitController {
     @ResponseBody
     @PostMapping("/commit")
     public ResponseEntity<String> getCommitMessges(@RequestBody GitRequest data) throws Exception {
-        System.out.println(data);
+        System.out.println(data); //하이 주석을 추가했어요!
         String text = String.join("\n", data.getMessages());
-        System.out.println(data);
+        System.out.println(text);
         return new ResponseEntity<>("성공", HttpStatus.OK);
     }
 }
