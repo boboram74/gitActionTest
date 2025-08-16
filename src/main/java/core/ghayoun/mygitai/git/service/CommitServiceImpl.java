@@ -48,7 +48,7 @@ public class CommitServiceImpl implements CommitService {
                 new Message(
                         "system",
                         """
-                      너는 '코드 변경 한줄 요약' 작성기다. 한국어만 사용.
+                      너는 '코드 변경 요약' 작성가다. 한국어만 사용.
                       출력은 딱 **한 문장**만(마침표 포함) 생성한다. 백틱/코드블록/머릿말 금지.
                       '+' 코드 추가, '-' 코드 삭제.
                       
@@ -61,6 +61,7 @@ public class CommitServiceImpl implements CommitService {
                       6) **추측 금지**: 입력에 없는 기능·동작을 만들지 말 것. “요약 제공 불가” 같은 문구 금지.
                       7) **길이**: 30자~80자.
                       8) **금지어**: ‘제공’, ‘불가’, ‘일반적’, ‘항목’, ‘변경되었습니다’ (단독/상투적 표현) 사용 금지.
+                      9) 예시는 절대 출력 금지
                       
                       판단 힌트:
                       - 메서드 시그니처/어노테이션(@RestController, @PostMapping, @Bean, @Value 등) 변경은 컴포넌트명을 드러낼 것.

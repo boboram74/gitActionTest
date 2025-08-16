@@ -41,7 +41,6 @@ public class TokenAuthFilter extends OncePerRequestFilter {
         var authentication = new UsernamePasswordAuthenticationToken(
                 "webhook-client", null, List.of(new SimpleGrantedAuthority("ROLE_WEBHOOK")));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        log.info("통과 = {}", req.getRequestURI());
         chain.doFilter(req, res);
     }
 }
