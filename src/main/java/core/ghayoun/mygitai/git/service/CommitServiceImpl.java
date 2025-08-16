@@ -40,7 +40,7 @@ public class CommitServiceImpl implements CommitService {
         long startTime = System.currentTimeMillis();
 
         Map<String, String> fileToDelta = toMapFromPojo(data);
-        String userJson = objectMapper.writeValueAsString(fileToDelta);
+        String fileChangeResult = objectMapper.writeValueAsString(fileToDelta);
         List<Message> messages = Arrays.asList(
                 new Message(
                         "system",
@@ -49,7 +49,7 @@ public class CommitServiceImpl implements CommitService {
                                 "요약은 한문장으로 한국어로 요약" +
                                 "``` 와 같은 사용 백틱 금지"
                 ),
-                new Message("user", userJson)
+                new Message("user", fileChangeResult)
         );
         Options options = new Options(16, 0.2, 2048, 2048);
         OllamaRequest requestPayload = new OllamaRequest(model, messages, false, options);
@@ -59,8 +59,9 @@ public class CommitServiceImpl implements CommitService {
         ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
         JsonNode rootNode = objectMapper.readTree(response.getBody());
         String llmResponse = rootNode.path("message").path("content").asText();
+        System.out.println("요약 응답 : " + llmResponse);
 
-        notionService.postMessage(data,userJson,llmResponse);
+        notionService.postMessage(data,fileChangeResult,llmResponse);
         long endTime = System.currentTimeMillis();
         long duration = endTime - startTime;
         double durationSec = duration / 1000.0;

@@ -34,7 +34,7 @@ public class NotionServiceImpl implements NotionService{
     private static final String NOTION_VERSION = "2022-06-28";
 
     @Override
-    public ResponseEntity<String> postMessage(GitRequest data, String userJson ,String llmResponse) throws Exception {
+    public ResponseEntity<String> postMessage(GitRequest data, String fileChangeResult ,String llmResponse) throws Exception {
         String author = (data != null && data.getRepo() != null && data.getRepo().getOwner() != null)
                 ? data.getRepo().getOwner() : "";
         String commitName = (data != null && data.getMessages() != null && !data.getMessages().isEmpty())
@@ -43,9 +43,9 @@ public class NotionServiceImpl implements NotionService{
         String originalBlock = "";
         String changedBlock  = "";
 
-        if (userJson != null && !userJson.isBlank()) {
+        if (fileChangeResult != null && !fileChangeResult.isBlank()) {
             ObjectMapper m = new ObjectMapper();
-            Map<String, String> diffMap = m.readValue(userJson, new com.fasterxml.jackson.core.type.TypeReference<Map<String, String>>() {});
+            Map<String, String> diffMap = m.readValue(fileChangeResult, new com.fasterxml.jackson.core.type.TypeReference<Map<String, String>>() {});
 
             StringBuilder minusAll = new StringBuilder();
             StringBuilder plusAll  = new StringBuilder();
