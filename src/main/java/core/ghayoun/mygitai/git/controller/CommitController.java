@@ -18,61 +18,7 @@ public class CommitController {
     @ResponseBody
     @PostMapping("/commit")
     public ResponseEntity<String> getCommitMessges(@RequestBody GitRequest data) throws Exception {
-//        System.out.println("데이터원문 = "+data.toString());
         ResponseEntity<String> message = commitService.getMessage(data);
         return new ResponseEntity<>("성공", HttpStatus.OK);
     }
-
-    /*
-    qweqewewq
-        qweqewewq
-            qweqewewq
-                qweqewewq
-        qweqewewq
-            qweqewewq    qweqewewq
-        qweqewewq
-            qweqewewq    qweqewewq
-        qweqewewq
-            qweqewewq    qweqewewq
-        qweqewewq
-            qweqewewq    qweqewewq
-        qweqewewq
-            qweqewewq    qweqewewq
-        qweqewewq
-            qweqewewq    qweqewewq
-        qweqewewq
-            qweqewewq    qweqewewq
-        qweqewewq
-            qweqewewq    qweqewewq
-        qweqewewq
-            qweqewewq    qweqewewq
-        qweqewewq
-            qweqewewq    qweqewewq
-        qweqewewq
-            qweqewewq    qweqewewq
-        qweqewewq
-            qweqewewq    qweqewewq
-        qweqewewq
-            qweqewewq    qweqewewq
-        qweqewewq
-            qweqewewq    qweqewewq
-        qweqewewq
-            qweqewewq    qweqewewq
-        qweqewewq
-            qweqewewq    qweqewewq
-        qweqewewq
-            qweqewewq    qweqewewq
-        qweqewewq
-            qweqewewq    qweqewewq
-        qweqewewq
-            qweqewewq    qweqewewq
-        qweqewewq
-            qweqewewq    qweqewewq
-        qweqewewq
-            qweqewewq    qweqewewq
-        qweqewewq
-            qweqewewq    qweqewewq
-        qweqewewq
-            qweqewewq
-     */
 }

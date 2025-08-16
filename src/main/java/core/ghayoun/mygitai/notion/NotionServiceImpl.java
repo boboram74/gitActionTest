@@ -149,7 +149,7 @@ public class NotionServiceImpl implements NotionService{
                 "type", "code",
                 "code", Map.of(
                         "language", "java",
-                        "rich_text", toRichTextParts(text)   // 2000자 조각으로 자동 분할
+                        "rich_text", toRichTextParts(text)
                 )
         );
     }
