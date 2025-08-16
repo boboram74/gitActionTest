@@ -44,14 +44,40 @@ public class CommitServiceImpl implements CommitService {
         List<Message> messages = Arrays.asList(
                 new Message(
                         "system",
-                        "너는 커밋 요약 봇이다. 한국어만 사용한다.\n" +
-                                "아래 요약할때 엄격한 규칙을 지킨다." +
-                                "요약은 한문장으로 한국어로 요약" +
-                                "``` 와 같은 사용 백틱 금지"
+                        """
+                      너는 '코드 변경 한줄 요약' 작성기다. 한국어만 사용.
+                      출력은 딱 **한 문장**만(마침표 포함) 생성한다. 백틱/코드블록/머릿말 금지.
+                      
+                      입력: filename → diff 문자열(Map<String,String>.toString() 또는 JSON).
+                      diff는 '+' 추가, '-' 삭제.
+                      
+                      작성 규칙(아주 중요):
+                      1) **구체성**: 파일명(최소 1개) 또는 주요 클래스/메서드명을 반드시 포함.
+                      2) **행동 동사**: '추가/삭제/수정/리팩터/정리' 중 하나 이상 명시.
+                      3) 주석·로그·서식만 바뀐 경우 사실대로 “주석 보강”, “로그 문구 조정” 등으로 기술.
+                      4) **여러 파일**(2개 이상): ‘A 등 N개 파일’ 형식. A는 가장 핵심/변경량이 큰 파일.
+                      5) 테스트/문서/빌드 변경은 각각 ‘테스트 추가’, ‘문서 수정’, ‘빌드 설정 변경’으로 명확히.
+                      6) **추측 금지**: 입력에 없는 기능·동작을 만들지 말 것. “요약 제공 불가” 같은 문구 금지.
+                      7) **길이**: 25자~60자.
+                      8) **금지어**: ‘제공’, ‘불가’, ‘일반적’, ‘항목’, ‘변경되었습니다’ (단독/상투적 표현) 사용 금지.
+                      
+                      판단 힌트:
+                      - 메서드 시그니처/어노테이션(@RestController, @PostMapping, @Bean, @Value 등) 변경은 컴포넌트명을 드러낼 것.
+                      - 필드/생성자/메서드 추가·삭제는 그 사실을 명시.
+                      
+                      좋은 예:
+                      - "NotionServiceImpl에 diff 파싱 로직 추가, CommitServiceImpl 연동 수정"
+                      - "CommitController /commit 핸들러 주석 보강 및 필드 주석 정리"
+                      - "Options에서 format 속성 제거와 temperature 필드 정리, 2개 파일"
+                      
+                      나쁜 예(금지):
+                      - "커밋 내용이 변경되었습니다"
+                      - "제공된 코드 변경 사항에 대한 요약을 제공할 수 없습니다"
+                      """
                 ),
                 new Message("user", fileChangeResult)
         );
-        Options options = new Options(16, 0.2, 2048, 2048);
+        Options options = new Options(16, 0.3, 2048, 2048);
         OllamaRequest requestPayload = new OllamaRequest(model, messages, false, options);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
