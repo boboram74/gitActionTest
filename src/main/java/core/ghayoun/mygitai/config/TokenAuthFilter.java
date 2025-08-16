@@ -25,7 +25,8 @@ public class TokenAuthFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
-        return !request.getRequestURI().startsWith("/webhook");
+        String path = request.getServletPath();
+        return !path.startsWith("/git/commit");
     }
 
     @Override

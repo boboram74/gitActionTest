@@ -18,7 +18,7 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(reg -> reg
-                        .requestMatchers("/webhook/**").authenticated()
+                        .requestMatchers("/git/commit/**").authenticated()
                         .anyRequest().permitAll()
                 )
                 .addFilterBefore(bearerFilter, UsernamePasswordAuthenticationFilter.class)
