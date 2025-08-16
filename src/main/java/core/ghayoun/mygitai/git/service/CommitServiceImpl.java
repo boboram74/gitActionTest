@@ -45,7 +45,9 @@ public class CommitServiceImpl implements CommitService {
                 new Message(
                         "system",
                         "너는 커밋 요약 봇이다. 한국어만 사용한다.\n" +
-                                "어떤기능이 어떻게 바뀌었는지 요약해 쓸데없는 제목같은거 넣지말고 핵심만"
+                                "아래 요약할때 엄격한 규칙을 지킨다." +
+                                "요약은 한문장으로 한국어로 요약" +
+                                "``` 와 같은 사용 백틱 금지"
                 ),
                 new Message("user", userJson)
         );
@@ -59,7 +61,6 @@ public class CommitServiceImpl implements CommitService {
         String llmResponse = rootNode.path("message").path("content").asText();
 
         notionService.postMessage(data,userJson,llmResponse);
-        .
         long endTime = System.currentTimeMillis();
         long duration = endTime - startTime;
         double durationSec = duration / 1000.0;

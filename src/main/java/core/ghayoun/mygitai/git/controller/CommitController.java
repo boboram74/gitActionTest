@@ -15,12 +15,6 @@ public class CommitController {
 
     private final CommitService commitService; //wqe
 
-//    @ResponseBody
-//    @PostMapping
-//    public ResponseEntity<String> getResponseGpt(@RequestBody String data) throws Exception {
-//        return commitService.getMessage(data);
-//    }
-
     @ResponseBody
     @PostMapping("/commit")
     public ResponseEntity<String> getCommitMessges(@RequestBody GitRequest data) throws Exception {
