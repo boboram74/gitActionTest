@@ -102,14 +102,22 @@ public class NotionServiceImpl implements NotionService{
         ));
 
         List<Map<String, Object>> children = new java.util.ArrayList<>();
-        children.add(codeBlock("기존파일/삭제 라인", originalBlock));
-        children.add(codeBlock("변경파일/추가 라인", changedBlock));
+        if (!originalBlock.isEmpty()) {
+            children.add(headingBlock("기존파일/삭제 라인"));
+            children.add(codeBlock(originalBlock));
+        }
+        if (!changedBlock.isEmpty()) {
+            children.add(headingBlock("변경파일/추가 라인"));
+            children.add(codeBlock(changedBlock));
+        }
 
         Map<String, Object> payload = Map.of(
                 "parent", Map.of("database_id", databaseId),
                 "properties", properties,
                 "children", children
         );
+
+
 
         HttpEntity<Map<String, Object>> req = new HttpEntity<>(payload, headers);
         restTemplate.postForEntity(url, req, String.class);
@@ -135,15 +143,25 @@ public class NotionServiceImpl implements NotionService{
         }
         return parts;
     }
-
-    private static Map<String,Object> codeBlock(String caption, String text) {
+    private static Map<String,Object> codeBlock(String text) {
         return Map.of(
                 "object", "block",
                 "type", "code",
                 "code", Map.of(
-                        "language", "plain text",
-                        "caption", List.of(Map.of("type","text","text", Map.of("content", caption))),
-                        "rich_text", toRichTextParts(text)
+                        "language", "java",
+                        "rich_text", toRichTextParts(text)   // 2000자 조각으로 자동 분할
+                )
+        );
+    }
+
+    private static Map<String, Object> headingBlock(String text) {
+        return Map.of(
+                "object", "block",
+                "type", "heading_3",
+                "heading_3", Map.of(
+                        "rich_text", List.of(
+                                Map.of("type","text","text", Map.of("content", text))
+                        )
                 )
         );
     }
