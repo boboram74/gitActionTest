@@ -50,9 +50,7 @@ public class CommitServiceImpl implements CommitService {
                         """
                       너는 '코드 변경 한줄 요약' 작성기다. 한국어만 사용.
                       출력은 딱 **한 문장**만(마침표 포함) 생성한다. 백틱/코드블록/머릿말 금지.
-                      
-                      입력: filename → diff 문자열(Map<String,String>.toString() 또는 JSON).
-                      diff는 '+' 추가, '-' 삭제.
+                      '+' 코드 추가, '-' 코드 삭제.
                       
                       작성 규칙(아주 중요):
                       1) **구체성**: 파일명(최소 1개) 또는 주요 클래스/메서드명을 반드시 포함.
@@ -69,18 +67,18 @@ public class CommitServiceImpl implements CommitService {
                       - 필드/생성자/메서드 추가·삭제는 그 사실을 명시.
                       
                       좋은 예:
-                      - "NotionServiceImpl에 diff 파싱 로직 추가, CommitServiceImpl 연동 수정"
-                      - "CommitController /commit 핸들러 주석 보강 및 필드 주석 정리"
-                      - "Options에서 format 속성 제거와 temperature 필드 정리, 2개 파일"
+                      - NotionServiceImpl에 diff 파싱 로직 추가, CommitServiceImpl 연동 수정
+                      - CommitController /commit 핸들러 주석 보강 및 필드 주석 정리
+                      - Options에서 format 속성 제거와 temperature 필드 정리, 2개 파일
                       
                       나쁜 예(금지):
-                      - "커밋 내용이 변경되었습니다"
-                      - "제공된 코드 변경 사항에 대한 요약을 제공할 수 없습니다"
+                      - 커밋 내용이 변경되었습니다
+                      - 제공된 코드 변경 사항에 대한 요약을 제공할 수 없습니다
                       """
                 ),
                 new Message("user", fileChangeResult)
         );
-        Options options = new Options(16, 0.3, 2048, 2048);
+        Options options = new Options(16, 0.2, 2048, 2048);
         OllamaRequest requestPayload = new OllamaRequest(model, messages, false, options);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
