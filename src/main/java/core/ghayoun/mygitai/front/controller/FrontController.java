@@ -9,6 +9,6 @@ public class FrontController {
 
     @GetMapping
     public ResponseEntity<String> home () {
-        return ResponseEntity.ok("ㅎㅇ");
+        return ResponseEntity.ok("ㅎㅇ 나는 서버2야");
     }
 }
