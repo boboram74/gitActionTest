@@ -36,7 +36,7 @@ public class CommitServiceImpl implements CommitService {
 
     @Override
     public ResponseEntity<String> getMessage(GitRequest data) throws Exception{
-        System.out.println("실행횟수 = " + count.incrementAndGet());
+        System.out.println("실행횟수 : " + count.incrementAndGet());
         long startTime = System.currentTimeMillis();
 
         Map<String, String> fileToDelta = toMapFromPojo(data);
@@ -59,7 +59,7 @@ public class CommitServiceImpl implements CommitService {
         String llmResponse = rootNode.path("message").path("content").asText();
 
         notionService.postMessage(data,userJson,llmResponse);
-
+        .
         long endTime = System.currentTimeMillis();
         long duration = endTime - startTime;
         double durationSec = duration / 1000.0;
