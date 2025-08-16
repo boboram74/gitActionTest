@@ -66,12 +66,7 @@ public class CommitServiceImpl implements CommitService {
                       판단 힌트:
                       - 메서드 시그니처/어노테이션(@RestController, @PostMapping, @Bean, @Value 등) 변경은 컴포넌트명을 드러낼 것.
                       - 필드/생성자/메서드 추가·삭제는 그 사실을 명시.
-                      
-                      좋은 예:
-                      - NotionServiceImpl에 diff 파싱 로직 추가, CommitServiceImpl 연동 수정
-                      - CommitController /commit 핸들러 주석 보강 및 필드 주석 정리
-                      - Options에서 format 속성 제거와 temperature 필드 정리, 2개 파일
-                      
+
                       나쁜 예(금지):
                       - 커밋 내용이 변경되었습니다
                       - 제공된 코드 변경 사항에 대한 요약을 제공할 수 없습니다
