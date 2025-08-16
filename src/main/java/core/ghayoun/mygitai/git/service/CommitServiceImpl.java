@@ -86,7 +86,7 @@ public class CommitServiceImpl implements CommitService {
         ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
         JsonNode rootNode = objectMapper.readTree(response.getBody());
         String llmResponse = rootNode.path("message").path("content").asText();
-        System.out.println("요약 응답 : " + llmResponse);
+        System.out.println("AI응답 : " + llmResponse);
 
         notionService.postMessage(data,fileChangeResult,llmResponse);
         long endTime = System.currentTimeMillis();
