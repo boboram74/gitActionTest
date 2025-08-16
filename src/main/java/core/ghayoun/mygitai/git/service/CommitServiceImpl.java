@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import core.ghayoun.mygitai.git.domain.*;
 import core.ghayoun.mygitai.notion.NotionService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class CommitServiceImpl implements CommitService {
@@ -41,6 +43,7 @@ public class CommitServiceImpl implements CommitService {
 
         Map<String, String> fileToDelta = toMapFromPojo(data);
         String fileChangeResult = objectMapper.writeValueAsString(fileToDelta);
+        log.info("AI요청 : " + fileChangeResult);
         List<Message> messages = Arrays.asList(
                 new Message(
                         "system",
@@ -58,7 +61,7 @@ public class CommitServiceImpl implements CommitService {
                       4) **여러 파일**(2개 이상): ‘A 등 N개 파일’ 형식. A는 가장 핵심/변경량이 큰 파일.
                       5) 테스트/문서/빌드 변경은 각각 ‘테스트 추가’, ‘문서 수정’, ‘빌드 설정 변경’으로 명확히.
                       6) **추측 금지**: 입력에 없는 기능·동작을 만들지 말 것. “요약 제공 불가” 같은 문구 금지.
-                      7) **길이**: 25자~60자.
+                      7) **길이**: 30자~80자.
                       8) **금지어**: ‘제공’, ‘불가’, ‘일반적’, ‘항목’, ‘변경되었습니다’ (단독/상투적 표현) 사용 금지.
                       
                       판단 힌트:
