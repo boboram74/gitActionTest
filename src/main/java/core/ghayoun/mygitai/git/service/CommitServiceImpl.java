@@ -49,7 +49,7 @@ public class CommitServiceImpl implements CommitService {
                         "system",
                         """
                       너는 '코드 변경 요약' 작성가다. 한국어만 사용.
-                      출력은 딱 **한 문장**만(마침표 포함) 생성한다. 백틱/코드블록/머릿말 금지.
+                      출력은 딱 **한 문장**만(마침표 포함) 생성한다. `과 같은 백틱/코드블록/머릿말 금지.
                       '+' 코드 추가, '-' 코드 삭제
                       
                       작성 규칙(아주 중요):
@@ -83,12 +83,12 @@ public class CommitServiceImpl implements CommitService {
         JsonNode rootNode = objectMapper.readTree(response.getBody());
         String llmResponse = rootNode.path("message").path("content").asText();
         log.info("AI 응답 = {}", llmResponse);
-        notionService.postMessage(data,fileChangeResult,llmResponse);
+        ResponseEntity<String> resultNotionWrite = notionService.postMessage(data,fileChangeResult,llmResponse);
         long endTime = System.currentTimeMillis();
         long duration = endTime - startTime;
         double durationSec = duration / 1000.0;
         System.out.println("실행시간 : " + durationSec + "초");
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(resultNotionWrite.getBody());
     }
 
     Map<String, String> toMapFromPojo(GitRequest req) {

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -32,7 +33,7 @@ public class NotionServiceImpl implements NotionService{
     private static final String NOTION_VERSION = "2022-06-28";
 
     @Override
-    public void postMessage(GitRequest data, String fileChangeResult, String llmResponse) throws Exception {
+    public ResponseEntity<String> postMessage(GitRequest data, String fileChangeResult, String llmResponse) throws Exception {
         String author = (data != null && data.getRepo() != null && data.getRepo().getOwner() != null)
                 ? data.getRepo().getOwner() : "";
         String commitName = (data != null && data.getMessages() != null && !data.getMessages().isEmpty())
@@ -117,10 +118,8 @@ public class NotionServiceImpl implements NotionService{
                 "children", children
         );
 
-
-
         HttpEntity<Map<String, Object>> req = new HttpEntity<>(payload, headers);
-        restTemplate.postForEntity(url, req, String.class);
+        return restTemplate.postForEntity(url, req, String.class);
     }
 
     private static List<Map<String, Object>> toRichTextParts(String s) {

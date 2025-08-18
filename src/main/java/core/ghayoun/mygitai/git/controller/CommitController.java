@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class CommitController {
 
-    private final CommitService commitService; //wqe
+    private final CommitService commitService;
 
     @ResponseBody
     @PostMapping("/commit")

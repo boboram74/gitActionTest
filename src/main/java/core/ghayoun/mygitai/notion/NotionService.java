@@ -1,7 +1,8 @@
 package core.ghayoun.mygitai.notion;
 
 import core.ghayoun.mygitai.git.domain.GitRequest;
+import org.springframework.http.ResponseEntity;
 
 public interface NotionService {
-    void postMessage(GitRequest data, String fileChangeResult, String llmResponse) throws Exception;
+    ResponseEntity<String> postMessage(GitRequest data, String fileChangeResult, String llmResponse) throws Exception;
 }
