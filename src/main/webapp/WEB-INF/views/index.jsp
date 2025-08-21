@@ -24,7 +24,6 @@
       position: relative;
     }
 
-    /* 배경 애니메이션 */
     .bg-animation {
       position: fixed;
       top: 0;
@@ -150,7 +149,6 @@
               inset 0 1px 0 rgba(255, 255, 255, 0.1);
     }
 
-    /* 각 패널별 특별한 스타일 */
     .chat-panel {
       grid-row: span 2;
       background: rgba(255, 0, 128, 0.03);
@@ -242,7 +240,6 @@
       color: rgba(255, 255, 255, 0.7);
     }
 
-    /* 특별한 효과들 */
     .glitch-text {
       position: relative;
       font-weight: 700;
@@ -288,7 +285,6 @@
       100% { transform: translate(0); }
     }
 
-    /* 네온 효과 */
     .neon-border {
       box-shadow:
               0 0 20px rgba(255, 0, 128, 0.3),
@@ -304,7 +300,6 @@
       50% { opacity: 0.7; }
     }
 
-    /* 반응형 */
     @media (max-width: 1200px) {
       .main-grid {
         grid-template-columns: 1fr 1fr;
@@ -343,7 +338,6 @@
   </div>
 
   <div class="main-grid">
-    <!-- AI 채팅 패널 -->
     <div class="panel chat-panel neon-border">
       <div class="panel-header">
         <div class="panel-icon">🤖</div>
@@ -357,7 +351,6 @@
       </div>
     </div>
 
-    <!-- 게시판 -->
     <div class="panel board-panel">
       <div class="panel-header">
         <div class="panel-icon">📋</div>
@@ -371,7 +364,6 @@
       </div>
     </div>
 
-    <!-- 프로젝트 관리 -->
     <div class="panel project-panel">
       <div class="panel-header">
         <div class="panel-icon">⚡</div>
@@ -385,7 +377,6 @@
       </div>
     </div>
 
-    <!-- 웹소켓 채팅 -->
     <div class="panel websocket-panel">
       <div class="panel-header">
         <div class="panel-icon">💬</div>
@@ -399,7 +390,6 @@
       </div>
     </div>
 
-    <!-- 빠른 도구들 -->
     <div class="panel quick-panel">
       <div class="panel-header">
         <div class="panel-icon">🎯</div>
@@ -413,7 +403,6 @@
       </div>
     </div>
 
-    <!-- 시스템 모니터링 -->
     <div class="panel tools-panel">
       <div class="panel-header">
         <div class="panel-icon">📊</div>
@@ -427,7 +416,6 @@
       </div>
     </div>
 
-    <!-- 개인 통계 -->
     <div class="panel stats-panel">
       <div class="panel-header">
         <div class="panel-icon">🧠</div>
@@ -441,7 +429,6 @@
       </div>
     </div>
 
-    <!-- 메모 & 노트 -->
     <div class="panel notes-panel">
       <div class="panel-header">
         <div class="panel-icon">💭</div>
@@ -469,10 +456,9 @@
     document.getElementById('clock').textContent = `⏰ ${time}`;
   }
 
-  updateClock();
+  updateClock();/qwe
   setInterval(updateClock, 1000);
 
-  // 패널 클릭 효과
   document.querySelectorAll('.panel').forEach(panel => {
     panel.addEventListener('click', function() {
       this.style.transform = 'scale(0.98)';
