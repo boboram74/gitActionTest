@@ -11,10 +11,15 @@ public class FrontController {
 
     @GetMapping("/")
     public String home (HttpServletRequest request) {
-        if (request.getSession().getAttribute("user") == null) {
-            return "redirect:member/login";
-        }
+//        if (request.getSession().getAttribute("user") == null) {
+//            return "redirect:member/login";
+//        }
         return "index";
+    }
+
+    @GetMapping("/detail")
+    public String detail (HttpServletRequest request) {
+        return "community/post_detail";
     }
 
     @GetMapping("/member/login")
